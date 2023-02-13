@@ -1,3 +1,8 @@
+"""
+this file manages the pygame GUI
+"""
+
+
 import pygame
 vec2 = pygame.math.Vector2
 

@@ -1,3 +1,8 @@
+"""
+This is the main script, for information on usage see README.md
+"""
+
+
 import pygame
 pygame.init()
 import math
