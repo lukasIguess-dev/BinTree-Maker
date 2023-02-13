@@ -12,15 +12,11 @@ from tkinter import *
 from tkinter import messagebox
 import pgGUI
 
-####################################
-##        Version: 1.0.1          ##
-####################################
-
-current_Version = "v1.0.1"
+current_Version = "v1.0.3"
 
 vec2 = pygame.math.Vector2
 
-WIDTH, HEIGHT = 1920 , 1080
+WIDTH, HEIGHT = 1000 , 600
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 color_bg = pygame.Color(220,220,220)#dark mode:(30,30,50)
@@ -29,14 +25,6 @@ bT = BinTree()
 bT.pos = vec2(WIDTH//2, HEIGHT*0.1)
 bT.size = 50
 
-# initialising gui handler
-GUI_handler = pgGUI.GuiHandler()
-
-gui_elem = pgGUI.GUI_Element(vec2(10, 10), vec2(100,100))
-gui_elem.color = (255,0,0)
-
-GUI_handler.gui_elements.append(gui_elem)
-
 # minimum size of tree (prevent infinite zooming)
 min_size = 10
 
@@ -44,6 +32,7 @@ min_size = 10
 allFonts = pygame.font.get_fonts()
 
 def starting_window():
+    print("starting...")
     randomFontProbability = 100 # 1  in 100
     randomNum = random.randint(1, randomFontProbability)
     shuffle_Fonts = False
@@ -94,8 +83,19 @@ def main():
     shift_pressed = False
     ctrk_pressed = False
     
+    # initialising gui handler
+    GUI_handler = pgGUI.GuiHandler()
+    
+    # create gui element
+    gui_elem = pgGUI.Button(vec2(10,10), vec2(50,50), bT.toggle_photoMode)    #GUI_Element(vec2(10, 10), vec2(100,100))
+    gui_elem.color = (100,0,0)
+    # add gui element to gui_handeler
+    GUI_handler.gui_elements.append(gui_elem)
+
     # display starting window
     starting_window()
+    print("Programm started")
+
     # app loop
     running = True
     while running:
@@ -106,7 +106,7 @@ def main():
 
             if event.type == pygame.QUIT:
                 running = False
-
+            
             # Mouse Input:
             if event.type == pygame.MOUSEBUTTONUP:
                 moving_tree = False
@@ -125,18 +125,20 @@ def main():
                         bT.size = max(min_size, bT.size + event.y*10)
 
             # Keyboard Input:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN: # keydown
                 if event.key == pygame.K_ESCAPE:
                     if messagebox.askquestion("Y u goin? :(", "Do You want to quit?") == "yes":
                         running = False
-                if event.key == pygame.K_LSHIFT:
+                if event.key == pygame.K_LSHIFT: # LSHIFT
                     shift_pressed = True
-                if event.key == pygame.K_LCTRL:
+                if event.key == pygame.K_LCTRL: # CTRL
                     ctrk_pressed = True
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LSHIFT:
+                if event.key == pygame.K_F1: # F1
+                    bT.toggle_photoMode()
+            if event.type == pygame.KEYUP: # keyup
+                if event.key == pygame.K_LSHIFT: # LSHIFT
                     shift_pressed = False
-                if event.key == pygame.K_LCTRL:
+                if event.key == pygame.K_LCTRL: # CTRL
                     ctrk_pressed = False
 
             bT.update(event)
@@ -151,6 +153,7 @@ def main():
 
         # render tree
         bT.render(window)
+        # render gui
         GUI_handler.render(window)
         
         # update display
