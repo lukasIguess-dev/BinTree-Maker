@@ -5,7 +5,8 @@ from binTree import*
 import random
 from tkinter import * 
 from tkinter import messagebox
-  
+import pgGUI
+
 ####################################
 ##        Version: 1.0.1          ##
 ####################################
@@ -23,6 +24,14 @@ bT = BinTree()
 bT.pos = vec2(WIDTH//2, HEIGHT*0.1)
 bT.size = 50
 
+# initialising gui handler
+GUI_handler = pgGUI.GuiHandler()
+
+gui_elem = pgGUI.GUI_Element(vec2(10, 10), vec2(100,100))
+gui_elem.color = (255,0,0)
+
+GUI_handler.gui_elements.append(gui_elem)
+
 # minimum size of tree (prevent infinite zooming)
 min_size = 10
 
@@ -35,7 +44,7 @@ def starting_window():
     shuffle_Fonts = False
     if randomNum == 1:
         shuffle_Fonts = True
-   
+
     # text
     randomFont = allFonts[random.randint(0, len(allFonts)-1)]
     # appname font + text
@@ -50,7 +59,6 @@ def starting_window():
     # animation
     frames = 1000
     bg_brightness = (color_bg.r + color_bg.g + color_bg.b)//3
-    print(bg_brightness)
     for i in range(frames):
         if bg_brightness > 255/2:
             # starts from dark goes to bright
@@ -88,8 +96,13 @@ def main():
     while running:
         for event in pygame.event.get():
             mx, my = pygame.mouse.get_pos()
+            # update gui
+            GUI_handler.update(event)
+
             if event.type == pygame.QUIT:
                 running = False
+
+            # Mouse Input:
             if event.type == pygame.MOUSEBUTTONUP:
                 moving_tree = False
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -106,7 +119,7 @@ def main():
                     else:
                         bT.size = max(min_size, bT.size + event.y*10)
 
-
+            # Keyboard Input:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     if messagebox.askquestion("Y u goin? :(", "Do You want to quit?") == "yes":
@@ -133,6 +146,7 @@ def main():
 
         # render tree
         bT.render(window)
+        GUI_handler.render(window)
         
         # update display
         pygame.display.update()
