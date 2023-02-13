@@ -2,7 +2,8 @@
 This is the main script, for information on usage see README.md
 """
 
-
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 pygame.init()
 import math
@@ -11,6 +12,8 @@ import random
 from tkinter import * 
 from tkinter import messagebox
 import pgGUI
+
+
 
 current_Version = "v1.0.3"
 
