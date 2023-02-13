@@ -1,3 +1,8 @@
+"""
+This is the main script, for information on usage see README.md
+"""
+
+
 import pygame
 pygame.init()
 import math
@@ -50,7 +55,6 @@ def starting_window():
     # animation
     frames = 1000
     bg_brightness = (color_bg.r + color_bg.g + color_bg.b)//3
-    print(bg_brightness)
     for i in range(frames):
         if bg_brightness > 255/2:
             # starts from dark goes to bright

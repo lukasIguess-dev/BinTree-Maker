@@ -1,3 +1,8 @@
+"""
+this file provides the logic for the binary tree being created
+"""
+
+
 import pygame
 vec2 = pygame.math.Vector2
 
@@ -47,12 +52,6 @@ class BinTree():
                 dl = self.left.__dist_to_root()
                 dr = self.right.__dist_to_root()
                 return max(dl, dr)*2 +1
-            # doesnt work because it exceeds the maximum recursion depth in comparison
-            """
-            dl = self.left.__dist_to_root()
-            dr = self.right.__dist_to_root()
-            return max(dl, dr) + self.__dist_to_root()
-            """
     # called when preview / empty tree is clicked on 
     # creates left and right trees
     def __create(self)->None:
@@ -140,10 +139,6 @@ class BinTree():
             font = pygame.font.SysFont(None, int(font_size))
             text = font.render(self.root, True, (100,100,255))
             surface.blit(text, text.get_rect(center =  self.pos))
-        """
-        if self.rect != None:
-            pygame.draw.rect(surface, (0,255,0), self.rect)
-        """
         # render left/right once self is created
         if self.root != None:
             self.left.render(surface)
