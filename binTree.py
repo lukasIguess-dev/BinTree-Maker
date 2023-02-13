@@ -41,6 +41,8 @@ class BinTree():
         self.col_lines = (20,20,20)
 
         self.isHovered = False
+        self.photomode = False
+
     # calculates the factor of the child's x distace to it's root
     def __dist_to_root(self)->int:
         # if it's an empty tree the factor is 1
@@ -70,10 +72,26 @@ class BinTree():
         self.right.size = self.size 
         self.right.depth = self.depth + 1
 
+    def toggle_photoMode(self):
+        print(f"toggle photomode to {self.photomode != True}")
+        if self.photomode:
+            self.photomode = False
+            if self.root != None:
+                self.left.toggle_photoMode()
+                self.right.toggle_photoMode()
+            return
+        self.photomode = True
+        if self.root != None:
+                self.left.toggle_photoMode()
+                self.right.toggle_photoMode()
+
+
     def delete(self):
         self.root = None
 
     def update(self, event)->None:
+        if self.photomode:
+            return
         # update self.rect
         self.rect = pygame.Rect(self.pos.x-self.size, self.pos.y-self.size, self.size*2, self.size*2)
         # get mouse position and check if self is hovered
@@ -115,10 +133,11 @@ class BinTree():
         # render self:
         # checks if self is empty -> just draw previw 
         if self.root == None:
-            if self.isHovered:
-                pygame.draw.circle(surface, self.col_preview_hovered, self.pos, self.size) # fill preview hovered
-            else:
-                pygame.draw.circle(surface, self.col_preview, self.pos, self.size) # fill preview
+            if self.photomode is False:
+                if self.isHovered:
+                    pygame.draw.circle(surface, self.col_preview_hovered, self.pos, self.size) # fill preview hovered
+                else:
+                    pygame.draw.circle(surface, self.col_preview, self.pos, self.size) # fill preview
         else:
             # draw lines to left and right if existing
             if self.left.root != None:

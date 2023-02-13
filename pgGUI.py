@@ -10,11 +10,11 @@ class GUI_Element():
     def __init__(self, position:vec2, size:vec2) -> None:
         self.pos = position
         self.size = size
-        self.color  = (255, 255, 255)
+        self.col  = (255, 255, 255)
     def update(self, event):
         pass
     def render(self, surface:pygame.surface):
-        pygame.draw.rect(surface, self.color, (self.pos.x, self.pos.y, self.size.x, self.size.y))
+        pygame.draw.rect(surface, self.col, (self.pos.x, self.pos.y, self.size.x, self.size.y))
 
 class GuiHandler():
     def __init__(self) -> None:
@@ -45,6 +45,8 @@ class Button(GUI_Element):
         super().__init__(position, size)
         self.function = function # function which is executed on buttonpress
         self.__isHovered = False
+
+        self.col_hovered = (0,200,0, 10)
     
     def onPress(self):
         self.function()
@@ -54,9 +56,15 @@ class Button(GUI_Element):
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.isHovered = True
+            #print("hover")
         else:
             self.isHovered = False
-
-        if event == pygame.MOUSEBUTTONDOWN:
+        if pygame.mouse.get_pressed(3)[0]: # left click
             if self.isHovered:
-                print("click")
+                self.onPress()
+    def render(self, surface:pygame.surface):
+        pygame.draw.rect(surface, self.col, (self.pos.x, self.pos.y, self.size.x, self.size.y))
+        if self.isHovered:
+            pygame.draw.rect(surface, self.col_hovered, (self.pos.x, self.pos.y, self.size.x, self.size.y), width=5)
+        
+
