@@ -10,29 +10,34 @@ class GUI_Element():
     def __init__(self, position:vec2, size:vec2) -> None:
         self.pos = position
         self.size = size
-        self.col  = (255, 255, 255)
-
+        self.color  = (255, 255, 255)
+    def update(self, event):
+        pass
     def render(self, surface:pygame.surface):
-        pygame.draw.rect(surface, self.col, (self.pos.x, self.pos.y, self.size.x, self.size.y))
+        pygame.draw.rect(surface, self.color, (self.pos.x, self.pos.y, self.size.x, self.size.y))
 
 class GuiHandler():
-    def __init__(self, gui_elements:GUI_Element = []) -> None:
-        self.__gui_elements = gui_elements
+    def __init__(self) -> None:
+        self.gui_elements = []
+        
+
     def get_gui_elements(self):
-        if self.__gui_elements == []:
+        if self.gui_elements == []:
             return
-        return self.__gui_elements
-    def add(self, new_element:GUI_Element):
-        self.__gui_elements.append[new_element]
+        return self.gui_elements
+    def addElement(self, new_element):
+        print(new_element)
+        #self.gui_elements.append[new_element]
+
     def update(self, event:pygame.event):
-        if self.__gui_elements == []:
+        if self.gui_elements == []:
             return
-        for elem in self.__gui_elements:
+        for elem in self.gui_elements:
             elem.update(event)
     def render(self, surface:pygame.surface):
-        if self.__gui_elements == []:
+        if self.gui_elements == []:
             return
-        for elem in self.__gui_elements:
+        for elem in self.gui_elements:
             elem.render(surface)
 
 class Button(GUI_Element):
