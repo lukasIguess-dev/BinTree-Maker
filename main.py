@@ -16,7 +16,7 @@ current_Version = "v1.0.3"
 
 vec2 = pygame.math.Vector2
 
-WIDTH, HEIGHT = 1000 , 600
+WIDTH, HEIGHT = 1920 , 1080
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 color_bg = pygame.Color(220,220,220)#dark mode:(30,30,50)
