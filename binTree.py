@@ -2,7 +2,8 @@
 this file provides the logic for the binary tree being created
 """
 
-
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 vec2 = pygame.math.Vector2
 
@@ -73,7 +74,7 @@ class BinTree():
         self.right.depth = self.depth + 1
 
     def toggle_photoMode(self):
-        print(f"toggle photomode to {self.photomode != True}")
+        print(f"Photomode is now {self.photomode != True}")
         if self.photomode:
             self.photomode = False
             if self.root != None:

@@ -2,7 +2,8 @@
 this file manages the pygame GUI
 """
 
-
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 vec2 = pygame.math.Vector2
 
