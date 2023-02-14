@@ -39,7 +39,7 @@ def starting_window():
     randomFontProbability = 100 # 1  in 100
     randomNum = random.randint(1, randomFontProbability)
     shuffle_Fonts = False
-    if randomNum == 1:
+    if randomNum == 50:
         shuffle_Fonts = True
 
     # text
@@ -81,6 +81,8 @@ def starting_window():
         pygame.display.update()
 
 
+
+
 def main():
     moving_tree = False
     shift_pressed = False
@@ -90,10 +92,11 @@ def main():
     GUI_handler = pgGUI.GuiHandler()
     
     # create gui element
-    gui_elem = pgGUI.Button(vec2(10,10), vec2(50,50), bT.toggle_photoMode)    #GUI_Element(vec2(10, 10), vec2(100,100))
-    gui_elem.color = (100,0,0)
+    gui_Button_photomode = pgGUI.Button(vec2(10,10), vec2(50,50), bT.toggle_photoMode)    #GUI_Element(vec2(10, 10), vec2(100,100))
+    gui_Button_photomode.color = (100,0,0)
+    gui_Button_photomode.addImageBackground(pygame.image.load(".\Assets\icon_camera.png"))
     # add gui element to gui_handeler
-    GUI_handler.gui_elements.append(gui_elem)
+    GUI_handler.gui_elements.append(gui_Button_photomode)
 
     # display starting window
     starting_window()

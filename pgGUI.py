@@ -26,7 +26,7 @@ class GuiHandler():
         if self.gui_elements == []:
             return
         return self.gui_elements
-    def addElement(self, new_element):
+    def addElement(self, new_element): # doesn't work somehow
         print(new_element)
         #self.gui_elements.append[new_element]
 
@@ -46,26 +46,33 @@ class Button(GUI_Element):
         super().__init__(position, size)
         self.function = function # function which is executed on buttonpress
         self.__isHovered = False
+        self.__img = None
 
         self.col_hovered = (0,200,0, 10)
     
     def onPress(self):
         self.function()
 
+    def addImageBackground(self, image:pygame.surface):
+        self.__img = pygame.transform.scale(image, self.size)
+
     def update(self, event:pygame.event):
         self.rect = pygame.Rect(self.pos.x, self.pos.y, self.size.x, self.size.y)
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.isHovered = True
-            #print("hover")
+            #("hover")
         else:
             self.isHovered = False
         if pygame.mouse.get_pressed(3)[0]: # left click
             if self.isHovered:
                 self.onPress()
     def render(self, surface:pygame.surface):
-        pygame.draw.rect(surface, self.col, (self.pos.x, self.pos.y, self.size.x, self.size.y))
+        if self.__img != None:
+            print("display image!")
+            surface.blit(self.__img, self.pos)
+        else:
+            pygame.draw.rect(surface, self.col, (self.pos.x, self.pos.y, self.size.x, self.size.y))
         if self.isHovered:
             pygame.draw.rect(surface, self.col_hovered, (self.pos.x, self.pos.y, self.size.x, self.size.y), width=5)
         
-
