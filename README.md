@@ -11,4 +11,4 @@ A Script for creating a binary tree in a simple to use visual interface.
 - You can zoom out or in by using the mouse wheel.
 - By holding left ctrl you can zoom with smaller steps
 - By holding left shift while zooming you can zoom on the horizontal axis.
-- Photomode: You can hide all non-connected nodes by either pressing the button in the top-left corner or pressing F1.
+- Photomode: You can hide all non-connected nodes by either pressing the camera-icon in the top left corner or by pressing F1.
