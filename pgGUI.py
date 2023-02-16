@@ -42,7 +42,7 @@ class GuiHandler():
             elem.render(surface)
 
 class Button(GUI_Element):
-    def __init__(self, position: vec2, size: vec2, function = None) -> None:
+    def __init__(self, position: vec2, size: vec2, function) -> None:
         super().__init__(position, size)
         self.function = function # function which is executed on buttonpress
         self.__isHovered = False
@@ -51,6 +51,8 @@ class Button(GUI_Element):
         self.col_hovered = (0,200,0, 10)
     
     def onPress(self):
+        if self.function == None:
+            return
         self.function()
 
     def addImageBackground(self, image:pygame.surface):
@@ -75,3 +77,32 @@ class Button(GUI_Element):
         if self.isHovered:
             pygame.draw.rect(surface, self.col_hovered, (self.pos.x, self.pos.y, self.size.x, self.size.y), width=5)
         
+class Container(GUI_Element):
+    def __init__(self, position: vec2, size: vec2, show = False) -> None:
+        super().__init__(position, size)
+        self.elements = []
+        self.show = show
+    def addElement(self, newElement:GUI_Element):
+        if type(newElement) == list:
+            for elem in newElement:
+                self.elements.append(elem)
+                return
+        self.elements.append(newElement)
+    def toggle(self):
+        print("toggle")
+        if self.show:
+            self.show = False
+            return
+        self.show = True
+
+    def update(self, event):
+        if not self.show:
+            return
+        for elem in self.elements:
+            elem.update(event)
+    def render(self, surface: pygame.surface):
+        if not self.show:
+            return
+        super().render(surface)
+        for elem in self.elements:
+            elem.render(surface)

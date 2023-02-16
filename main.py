@@ -12,10 +12,11 @@ import random
 from tkinter import * 
 from tkinter import messagebox
 import pgGUI
+import sys
 
 
 
-current_Version = "v1.0.3"
+current_Version = "v1.1.3"
 
 vec2 = pygame.math.Vector2
 
@@ -87,8 +88,11 @@ def starting_window():
         # update window
         pygame.display.update()
 
-
-
+def closeApp():
+    if messagebox.askquestion("Y u goin? :(", "Do You want to quit?") == "yes":
+        pygame.quit()
+        sys.exit()
+        
 
 def main():
     moving_tree = False
@@ -98,17 +102,28 @@ def main():
     # initialising gui handler
     GUI_handler = pgGUI.GuiHandler()
     
-    # create gui elements
+    # GUI-SETUP:
     #   button photomode
     gui_Button_photomode = pgGUI.Button(vec2(10,60), vec2(50,50), bT.toggle_photoMode)    #GUI_Element(vec2(10, 10), vec2(100,100))
     gui_Button_photomode.addImageBackground(pygame.image.load(".\Assets\icon_camera.png"))
     
     #   button options
-    gui_Button_options = pgGUI.Button(vec2(10,10), vec2(50,50))
-    gui_Button_options.addImageBackground(pygame.image.load("Assets\icon_Optionwheel.png"))
+
+        #   option window setup
+    gui_Container_options = pgGUI.Container(vec2(70, 10), vec2(70,130))
+    gui_Container_options.col = (250, 250, 250)
+
+    gui_Button_options = pgGUI.Button(vec2(10,10), vec2(50,50), gui_Container_options.toggle)
+    gui_Button_options.addImageBackground(pygame.image.load(".\Assets\icon_Optionwheel.png"))
+
+    gui_Button_close = pgGUI.Button(gui_Container_options.pos+vec2(10,10), vec2(50,50),closeApp)
+    gui_Button_close.addImageBackground(pygame.image.load(".\Assets\icon_Close.png"))
+    gui_Container_options.addElement(gui_Button_close)
+
     # add gui elements to gui_handeler
     GUI_handler.gui_elements.append(gui_Button_photomode)
     GUI_handler.gui_elements.append(gui_Button_options)
+    GUI_handler.gui_elements.append(gui_Container_options)
 
     # display starting window
     starting_window()
@@ -124,7 +139,6 @@ def main():
 
             if event.type == pygame.QUIT:
                 running = False
-            
             # Mouse Input:
             if event.type == pygame.MOUSEBUTTONUP:
                 moving_tree = False
@@ -144,9 +158,8 @@ def main():
 
             # Keyboard Input:
             if event.type == pygame.KEYDOWN: # keydown
-                if event.key == pygame.K_ESCAPE:
-                    if messagebox.askquestion("Y u goin? :(", "Do You want to quit?") == "yes":
-                        running = False
+                if event.key == pygame.K_ESCAPE: # ESC
+                    closeApp()
                 if event.key == pygame.K_LSHIFT: # LSHIFT
                     shift_pressed = True
                 if event.key == pygame.K_LCTRL: # CTRL
