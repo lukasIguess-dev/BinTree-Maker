@@ -58,6 +58,9 @@ class BinTree():
     # called when preview / empty tree is clicked on 
     # creates left and right trees
     def __create(self)->None:
+        # cancel creation if photomode is true
+        if self.photomode:
+            return
         # creates popup where str can be inserted/root has to be named
         # empty str input -> func returns None -> creation canceled
         self.root = input_string_popup()
@@ -91,8 +94,6 @@ class BinTree():
         self.root = None
 
     def update(self, event)->None:
-        if self.photomode:
-            return
         # update self.rect
         self.rect = pygame.Rect(self.pos.x-self.size, self.pos.y-self.size, self.size*2, self.size*2)
         # get mouse position and check if self is hovered
