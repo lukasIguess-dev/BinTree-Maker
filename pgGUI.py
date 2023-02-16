@@ -42,7 +42,7 @@ class GuiHandler():
             elem.render(surface)
 
 class Button(GUI_Element):
-    def __init__(self, position: vec2, size: vec2, function) -> None:
+    def __init__(self, position: vec2, size: vec2, function = None) -> None:
         super().__init__(position, size)
         self.function = function # function which is executed on buttonpress
         self.__isHovered = False
@@ -69,7 +69,6 @@ class Button(GUI_Element):
                 self.onPress()
     def render(self, surface:pygame.surface):
         if self.__img != None:
-            print("display image!")
             surface.blit(self.__img, self.pos)
         else:
             pygame.draw.rect(surface, self.col, (self.pos.x, self.pos.y, self.size.x, self.size.y))

@@ -98,12 +98,17 @@ def main():
     # initialising gui handler
     GUI_handler = pgGUI.GuiHandler()
     
-    # create gui element
-    gui_Button_photomode = pgGUI.Button(vec2(10,10), vec2(50,50), bT.toggle_photoMode)    #GUI_Element(vec2(10, 10), vec2(100,100))
-    gui_Button_photomode.color = (100,0,0)
+    # create gui elements
+    #   button photomode
+    gui_Button_photomode = pgGUI.Button(vec2(10,60), vec2(50,50), bT.toggle_photoMode)    #GUI_Element(vec2(10, 10), vec2(100,100))
     gui_Button_photomode.addImageBackground(pygame.image.load(".\Assets\icon_camera.png"))
-    # add gui element to gui_handeler
+    
+    #   button options
+    gui_Button_options = pgGUI.Button(vec2(10,10), vec2(50,50))
+    gui_Button_options.addImageBackground(pygame.image.load("Assets\icon_Optionwheel.png"))
+    # add gui elements to gui_handeler
     GUI_handler.gui_elements.append(gui_Button_photomode)
+    GUI_handler.gui_elements.append(gui_Button_options)
 
     # display starting window
     starting_window()
