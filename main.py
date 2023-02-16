@@ -22,6 +22,13 @@ vec2 = pygame.math.Vector2
 WIDTH, HEIGHT = 1920 , 1080
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
+# set window icon
+icon_window = pygame.image.load(".\Assets\icon_Window.png")
+pygame.display.set_icon(icon_window)
+
+# set window caption
+pygame.display.set_caption("")
+
 color_bg = pygame.Color(220,220,220)#dark mode:(30,30,50)
 
 bT = BinTree()
