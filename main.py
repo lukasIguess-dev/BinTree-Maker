@@ -17,7 +17,7 @@ import sys
 from screeninfo import get_monitors
 
 
-current_Version = "23.02.21"
+current_Version = "v23.02.21"
 
 vec2 = pygame.math.Vector2
 
