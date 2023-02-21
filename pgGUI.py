@@ -6,6 +6,7 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 vec2 = pygame.math.Vector2
+import time
 
 class GUI_Element():
     def __init__(self, position:vec2, size:vec2) -> None:
@@ -49,8 +50,13 @@ class Button(GUI_Element):
         self.__img = None
 
         self.col_hovered = (0,200,0, 10)
+        self.lastTimePressed = 0.0
+        self.cooldown = 1
     
     def onPress(self):
+        if time.time() - self.lastTimePressed < self.cooldown:
+            return
+        self.lastTimePressed = time.time()
         if self.function == None:
             return
         self.function()

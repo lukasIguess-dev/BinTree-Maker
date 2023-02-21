@@ -5,6 +5,7 @@ This is the main script, for information on usage see README.md
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
+from pygame.locals import*
 pygame.init()
 import math
 from binTree import*
@@ -13,15 +14,19 @@ from tkinter import *
 from tkinter import messagebox
 import pgGUI
 import sys
+from screeninfo import get_monitors
 
 
-
-current_Version = "v1.1.3"
+current_Version = "23.02.21"
 
 vec2 = pygame.math.Vector2
 
-WIDTH, HEIGHT = 1920 , 1080
-window = pygame.display.set_mode((WIDTH, HEIGHT))
+for monitor in get_monitors():
+    width = monitor.width
+    height = monitor.height
+
+WIDTH, HEIGHT = width , height
+window = pygame.display.set_mode((WIDTH//2, HEIGHT//2))
 
 # set window icon
 icon_window = pygame.image.load(".\Assets\icon_Window.png")
@@ -84,7 +89,6 @@ def starting_window():
         window.blit(text2, text2.get_rect(bottomleft = window.get_rect().bottomleft))
         # display current version (top left)
         window.blit(text3, text2.get_rect(topleft = window.get_rect().topleft))
-
         # update window
         pygame.display.update()
 
@@ -93,12 +97,31 @@ def closeApp():
         pygame.quit()
         sys.exit()
         
+fullscreen = False
 
 def main():
     moving_tree = False
     shift_pressed = False
-    ctrk_pressed = False
-    
+    ctrk_pressed = False 
+    fullscreen = True
+
+    def toggleFullscreen():
+        global fullscreen
+        global window
+        if fullscreen is True:
+            fullscreen = FALSE
+            window = pygame.display.set_mode((700,500), RESIZABLE)
+            pygame.display.toggle_fullscreen()
+            return
+        fullscreen = True
+        for monitor in get_monitors():
+            width = monitor.width
+            height = monitor.height
+        window = pygame.display.set_mode((width, height))
+        pygame.display.toggle_fullscreen()
+
+        
+
     # initialising gui handler
     GUI_handler = pgGUI.GuiHandler()
     
@@ -116,7 +139,11 @@ def main():
     gui_Button_options = pgGUI.Button(vec2(10,10), vec2(50,50), gui_Container_options.toggle)
     gui_Button_options.addImageBackground(pygame.image.load(".\Assets\icon_Optionwheel.png"))
 
-    gui_Button_close = pgGUI.Button(gui_Container_options.pos+vec2(10,10), vec2(50,50),closeApp)
+    gui_Button_toggleFullscreen = pgGUI.Button(gui_Container_options.pos+vec2(10,10), vec2(50,50),toggleFullscreen)
+    gui_Button_toggleFullscreen.addImageBackground(pygame.image.load(".\Assets\icons8-vollbild.gif"))
+    gui_Container_options.addElement(gui_Button_toggleFullscreen)
+
+    gui_Button_close = pgGUI.Button(gui_Container_options.pos+vec2(10,70), vec2(50,50),closeApp)
     gui_Button_close.addImageBackground(pygame.image.load(".\Assets\icon_Close.png"))
     gui_Container_options.addElement(gui_Button_close)
 

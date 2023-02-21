@@ -89,7 +89,6 @@ class BinTree():
                 self.left.toggle_photoMode()
                 self.right.toggle_photoMode()
 
-
     def delete(self):
         self.root = None
 
