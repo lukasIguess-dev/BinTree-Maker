@@ -15,18 +15,16 @@ from tkinter import messagebox
 import pgGUI
 import sys
 from screeninfo import get_monitors
+import webbrowser
 
 
-current_Version = "v23.02.21"
+current_Version = "v23.02.23"
 
 vec2 = pygame.math.Vector2
 
-for monitor in get_monitors():
-    width = monitor.width
-    height = monitor.height
 
-WIDTH, HEIGHT = width , height
-window = pygame.display.set_mode((WIDTH//2, HEIGHT//2))
+WIDTH, HEIGHT = 1200 , 900
+window = pygame.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
 
 # set window icon
 icon_window = pygame.image.load(".\Assets\icon_Window.png")
@@ -92,13 +90,18 @@ def starting_window():
         # update window
         pygame.display.update()
 
+# opens a messagebox which asks to close the window 
 def closeApp():
     if messagebox.askquestion("Y u goin? :(", "Do You want to quit?") == "yes":
         pygame.quit()
         sys.exit()
+
+# opens github repository in browser
+gitHubUrl = "https://github.com/lukasIguess-dev/BinTree-Maker"
+def openLinkToRepository():
+    webbrowser.open(gitHubUrl, new=0, autoraise=True)
         
 fullscreen = False
-
 def main():
     moving_tree = False
     shift_pressed = False
@@ -110,7 +113,7 @@ def main():
         global window
         if fullscreen is True:
             fullscreen = FALSE
-            window = pygame.display.set_mode((700,500), RESIZABLE)
+            window = pygame.display.set_mode((1200,900), RESIZABLE)
             pygame.display.toggle_fullscreen()
             return
         fullscreen = True
@@ -133,17 +136,21 @@ def main():
     #   button options
 
         #   option window setup
-    gui_Container_options = pgGUI.Container(vec2(70, 10), vec2(70,130))
+    gui_Container_options = pgGUI.Container(vec2(70, 10), vec2(70,190))
     gui_Container_options.col = (250, 250, 250)
-
+    # option button
     gui_Button_options = pgGUI.Button(vec2(10,10), vec2(50,50), gui_Container_options.toggle)
     gui_Button_options.addImageBackground(pygame.image.load(".\Assets\icon_Optionwheel.png"))
-
+    # fullscreen button
     gui_Button_toggleFullscreen = pgGUI.Button(gui_Container_options.pos+vec2(10,10), vec2(50,50),toggleFullscreen)
     gui_Button_toggleFullscreen.addImageBackground(pygame.image.load(".\Assets\icons8-vollbild.gif"))
     gui_Container_options.addElement(gui_Button_toggleFullscreen)
 
-    gui_Button_close = pgGUI.Button(gui_Container_options.pos+vec2(10,70), vec2(50,50),closeApp)
+    gui_Button_GitHubRepo = pgGUI.Button(gui_Container_options.pos+vec2(10,70), vec2(50,50), openLinkToRepository)
+    gui_Button_GitHubRepo.addImageBackground(pygame.image.load(".\Assets\icon_GitHub_Logo.png"))
+    gui_Container_options.addElement(gui_Button_GitHubRepo)
+    # close button
+    gui_Button_close = pgGUI.Button(gui_Container_options.pos+vec2(10,130), vec2(50,50),closeApp)
     gui_Button_close.addImageBackground(pygame.image.load(".\Assets\icon_Close.png"))
     gui_Container_options.addElement(gui_Button_close)
 
